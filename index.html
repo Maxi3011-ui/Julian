@@ -1,1 +1,353 @@
 
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Julian Spohr</title>
+  <meta name="description" content="Visitenkarte – Julian Spohr" />
+
+  <style>
+    :root{
+      --bg: #0b0d12;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.10);
+      --line: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --accent: #2f6bff;
+      --good: #20c997;
+      --r: 22px;
+      --shadow: 0 18px 70px rgba(0,0,0,.55);
+      --max: 980px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(900px 650px at 18% 10%, rgba(47,107,255,.20), transparent 60%),
+        radial-gradient(900px 650px at 82% 18%, rgba(32,201,151,.14), transparent 55%),
+        radial-gradient(1000px 750px at 60% 90%, rgba(255,255,255,.06), transparent 55%),
+        var(--bg);
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 18px; }
+
+    /* Top bar */
+    .top{
+      position: sticky; top: 10px; z-index: 10;
+      display:flex; align-items:center; justify-content:space-between; gap: 12px; flex-wrap: wrap;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      background: rgba(11,13,18,.65);
+      backdrop-filter: blur(10px);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+    }
+    .brand{
+      display:flex; align-items:center; gap: 10px;
+      min-width: 240px;
+    }
+    .avatar{
+      width: 44px; height: 44px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.18);
+      overflow:hidden;
+      background: rgba(255,255,255,.06);
+      flex: 0 0 auto;
+    }
+    .avatar img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+      filter: contrast(1.03) saturate(1.02);
+    }
+    .brandTxt{ line-height: 1.15; }
+    .brandTxt b{ display:block; font-size: 14px; letter-spacing: .2px; }
+    .brandTxt span{ display:block; color: var(--muted); font-size: 12.5px; }
+
+    .lang{
+      display:flex; align-items:center; gap: 8px;
+    }
+    .seg{
+      display:inline-flex; align-items:center;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      border-radius: 999px;
+      overflow:hidden;
+    }
+    .seg button{
+      appearance: none; border: 0; background: transparent; color: var(--muted);
+      padding: 8px 10px; cursor: pointer;
+      font-weight: 600; font-size: 12.5px;
+    }
+    .seg button.active{
+      color: var(--text);
+      background: rgba(255,255,255,.10);
+    }
+
+    /* Layout */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 880px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .pad{ padding: 18px; }
+    .title{
+      margin: 0;
+      font-size: clamp(26px, 4.4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.7px;
+    }
+    .sub{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.55;
+      max-width: 62ch;
+    }
+
+    .pills{
+      display:flex; gap: 8px; flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .dot{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: var(--good);
+      box-shadow: 0 0 0 4px rgba(32,201,151,.16);
+    }
+
+    /* Buttons */
+    .actions{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 520px) and (max-width: 880px){
+      .actions{ grid-template-columns: 1fr 1fr; }
+    }
+    .btn{
+      display:flex; align-items:center; justify-content:space-between; gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      transition: transform .06s ease, background .15s ease, border-color .15s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.22); }
+    .btn:active{ transform: translateY(1px); }
+    .btn b{ font-size: 13.5px; }
+    .btn span{ color: var(--muted); font-size: 12.5px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .btn .tag{
+      font-size: 12px;
+      color: rgba(255,255,255,.85);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+    }
+    .btn.primary{
+      border-color: rgba(47,107,255,.45);
+      background: linear-gradient(135deg, rgba(47,107,255,.28), rgba(255,255,255,.06));
+    }
+
+    .small{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .footer{
+      margin-top: 14px;
+      padding: 14px 6px 28px;
+      color: var(--muted);
+      font-size: 12.5px;
+      text-align:center;
+    }
+
+    /* Language handling */
+    [data-lang]{ display:none; }
+    html[data-lang="de"] [data-lang="de"]{ display:block; }
+    html[data-lang="en"] [data-lang="en"]{ display:block; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="avatar" title="Foto">
+          <!-- Lade das Foto als 'julian.jpg' ins Repo hoch -->
+          <img src="julian.jpg" alt="Julian Spohr Portrait" />
+        </div>
+        <div class="brandTxt">
+          <b>Julian Spohr</b>
+          <span data-lang="de">Schüler · Feodor-Lynen-Gymnasium</span>
+          <span data-lang="en">Student · Feodor-Lynen-Gymnasium</span>
+        </div>
+      </div>
+
+      <div class="lang" aria-label="Sprache">
+        <div class="seg" role="tablist" aria-label="Language">
+          <button id="btnDE" class="active" type="button" aria-selected="true">DE</button>
+          <button id="btnEN" type="button" aria-selected="false">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Left: Intro -->
+      <section class="card">
+        <div class="pad">
+          <h1 class="title">Julian Laurin Spohr</h1>
+
+          <p class="sub" data-lang="de">
+            Schüler am Feodor-Lynen-Gymnasium. Diese Seite dient als kompakte, seriöse Online-Visitenkarte
+            für Kontakt und Vernetzung.
+          </p>
+          <p class="sub" data-lang="en">
+            Student at Feodor-Lynen-Gymnasium. This page serves as a concise, professional digital
+            business card for contact and networking.
+          </p>
+
+          <div class="pills">
+            <span class="pill"><span class="dot"></span><span data-lang="de">Aktuell erreichbar</span><span data-lang="en">Currently available</span></span>
+            <span class="pill"><span data-lang="de">Deutsch / Englisch</span><span data-lang="en">German / English</span></span>
+            <span class="pill"><span data-lang="de">Mobile-first</span><span data-lang="en">Mobile-first</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Contact -->
+      <aside class="card">
+        <div class="pad">
+          <div class="actions" aria-label="Kontaktmöglichkeiten">
+            <a class="btn primary" href="mailto:jul.spohr@postbox.de">
+              <div>
+                <b>E-Mail</b>
+                <div><span>jul.spohr@postbox.de</span></div>
+              </div>
+              <div class="tag">Mail</div>
+            </a>
+
+            <a class="btn" href="tel:+4917643879626">
+              <div>
+                <b data-lang="de">Telefon</b><b data-lang="en">Phone</b>
+                <div><span>+49 176 43879626</span></div>
+              </div>
+              <div class="tag">Call</div>
+            </a>
+
+            <a class="btn" href="https://instagram.com/jul.spo_" target="_blank" rel="noopener">
+              <div>
+                <b>Instagram</b>
+                <div><span>@jul.spo_</span></div>
+              </div>
+              <div class="tag">IG</div>
+            </a>
+
+            <button class="btn" id="vcardBtn" type="button">
+              <div>
+                <b data-lang="de">Kontakt speichern</b><b data-lang="en">Save contact</b>
+                <div><span data-lang="de">vCard (.vcf) herunterladen</span><span data-lang="en">Download vCard (.vcf)</span></div>
+              </div>
+              <div class="tag">vCard</div>
+            </button>
+          </div>
+
+          <div class="small" data-lang="de">
+            Hinweis: Links öffnen die Standard-Apps (Mail/Telefon). Instagram öffnet ein neues Tab.
+          </div>
+          <div class="small" data-lang="en">
+            Note: Links open your default apps (Mail/Phone). Instagram opens in a new tab.
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span data-lang="de">© <span id="year"></span> Julian Spohr · Digitale Visitenkarte</span>
+      <span data-lang="en">© <span id="year2"></span> Julian Spohr · Digital business card</span>
+    </footer>
+  </div>
+
+  <script>
+    // Year
+    const y = new Date().getFullYear();
+    document.getElementById("year").textContent = y;
+    document.getElementById("year2").textContent = y;
+
+    // Language toggle
+    const root = document.documentElement;
+    const btnDE = document.getElementById("btnDE");
+    const btnEN = document.getElementById("btnEN");
+
+    function setLang(lang){
+      root.setAttribute("data-lang", lang);
+      root.setAttribute("lang", lang === "de" ? "de" : "en");
+      btnDE.classList.toggle("active", lang === "de");
+      btnEN.classList.toggle("active", lang === "en");
+      btnDE.setAttribute("aria-selected", lang === "de" ? "true" : "false");
+      btnEN.setAttribute("aria-selected", lang === "en" ? "true" : "false");
+      try{ localStorage.setItem("julian_lang", lang); } catch(e){}
+    }
+
+    const saved = (() => { try { return localStorage.getItem("julian_lang"); } catch(e){ return null; } })();
+    setLang(saved === "en" ? "en" : "de");
+    btnDE.addEventListener("click", () => setLang("de"));
+    btnEN.addEventListener("click", () => setLang("en"));
+
+    // vCard download
+    document.getElementById("vcardBtn").addEventListener("click", () => {
+      const vcf =
+`BEGIN:VCARD
+VERSION:3.0
+N:Spohr;Julian;;;
+FN:Julian Laurin Spohr
+EMAIL;TYPE=INTERNET:jul.spohr@postbox.de
+TEL;TYPE=CELL:+4917643879626
+URL:https://instagram.com/jul.spo_
+END:VCARD`;
+
+      const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Julian_Spohr.vcf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
